@@ -99,9 +99,10 @@
       || defaultHeaders['accept']['*']
 
     var isAFormData = typeof FormData === 'function' && (o['data'] instanceof FormData);
+    var isBodyLess = o['method'] === 'GET' || !o['data'];
     // breaks cross-origin requests with legacy browsers
     if (!o['crossOrigin'] && !headers[requestedWith]) headers[requestedWith] = defaultHeaders['requestedWith']
-    if (!headers[contentType] && !isAFormData) headers[contentType] = o['contentType'] || defaultHeaders['contentType']
+    if (!isBodyLess && !headers[contentType] && !isAFormData) headers[contentType] = o['contentType'] || defaultHeaders['contentType']
     for (h in headers)
       headers.hasOwnProperty(h) && 'setRequestHeader' in http && http.setRequestHeader(h, headers[h])
   }
